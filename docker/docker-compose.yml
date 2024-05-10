@@ -5,6 +5,8 @@ services:
         volumes:
             - ./docker/mysql_source/conf.d:/etc/mysql/conf.d
             - ./docker/mysql_source/init_data:/docker-entrypoint-initdb.d
+        ports:
+          - "3306:3306"
         environment:
             MYSQL_DATABASE: test
             MYSQL_USER: ${SOURCE_MYSQL_USER}
@@ -15,6 +17,8 @@ services:
         volumes:
             - ./docker/mysql_read/conf.d:/etc/mysql/conf.d
             - ./docker/mysql_read/init_data:/docker-entrypoint-initdb.d
+        ports:
+          - "3307:3306"
         environment:
             SOURCE_MYSQL_HOST: mysql_source
             SOURCE_MYSQL_USER: ${SOURCE_MYSQL_USER}
