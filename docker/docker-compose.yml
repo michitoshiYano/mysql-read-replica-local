@@ -1,0 +1,22 @@
+version: '3.8'
+services: 
+    mysql_source:
+        image: mysql:5.7
+        volumes:
+            - ./docker/mysql_source/conf.d:/etc/mysql/conf.d
+            - ./docker/mysql_source/init_data:/docker-entrypoint-initdb.d
+        environment:
+            MYSQL_DATABASE: test
+            MYSQL_USER: ${SOURCE_MYSQL_USER}
+            MYSQL_PASSWORD: ${SOURCE_MYSQL_PASSWORD}
+            MYSQL_RANDOM_ROOT_PASSWORD: 1
+    mysql_read:
+        image: mysql:5.7
+        volumes:
+            - ./docker/mysql_read/conf.d:/etc/mysql/conf.d
+            - ./docker/mysql_read/init_data:/docker-entrypoint-initdb.d
+        environment:
+            SOURCE_MYSQL_HOST: mysql_source
+            SOURCE_MYSQL_USER: ${SOURCE_MYSQL_USER}
+            SOURCE_MYSQL_PASSWORD: ${SOURCE_MYSQL_PASSWORD}
+            MYSQL_RANDOM_ROOT_PASSWORD: 1
